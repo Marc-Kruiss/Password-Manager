@@ -15,7 +15,7 @@ class SplashScreen : AppCompatActivity() {
 
         val lottieAnimationView: LottieAnimationView =  findViewById(R.id.lootie)
         val backgroundimage:LottieAnimationView = findViewById(R.id.backgroundimg)
-
+        // Animate Ending
         backgroundimage.animate().translationY(-3500f).setDuration(1000).startDelay = 5000
         lottieAnimationView.animate().translationY(3500f).setDuration(1000).setStartDelay(5000)
             .setListener(object : Animator.AnimatorListener {
