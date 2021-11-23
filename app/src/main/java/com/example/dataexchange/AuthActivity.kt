@@ -7,44 +7,44 @@ Data Exchange Between Activities
 package com.example.dataexchange
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.*
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import java.util.*
 
 
 class AuthActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_auth)
 
-        val viewPager = findViewById<ViewPager>(R.id.viewPager)
+        val viewPager = findViewById<ViewPager2>(R.id.viewPager)
+        val viewPagerFragmentAdapter:AuthPagerFragmentAdapter= AuthPagerFragmentAdapter(this)
 
-        val pagerAdapter = AuthenticationPagerAdapter(
-            supportFragmentManager
-        )
-        pagerAdapter.addFragmet(LoginFragment())
-        pagerAdapter.addFragmet(RegisterFragment())
-        viewPager.adapter = pagerAdapter
+        viewPager.adapter = viewPagerFragmentAdapter
     }
 }
 
-internal class AuthenticationPagerAdapter(fm: FragmentManager?) :
-    FragmentPagerAdapter(fm) {
-    private val fragmentList: ArrayList<Fragment> = ArrayList()
-    override fun getItem(i: Int): Fragment {
-        return fragmentList[i]
+class AuthPagerFragmentAdapter(fa:FragmentActivity) : FragmentStateAdapter(fa) {
+    val authOptions = arrayOf(String, "login","signup")
+    override fun getItemCount(): Int {
+        return authOptions.size
     }
 
-    override fun getCount(): Int {
-        return fragmentList.size
+    override fun createFragment(position: Int): Fragment {
+        when(position){
+            0 -> return LoginFragment()
+            1 -> return RegisterFragment()
+        }
+        return LoginFragment()
     }
 
-    fun addFragmet(fragment: Fragment) {
-        fragmentList.add(fragment)
-    }
+
 }
