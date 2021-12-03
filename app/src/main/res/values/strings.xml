@@ -21,6 +21,7 @@
     <string name="re_type_password">Re-type Password</string>
     <string name="your_name">Full Name</string>
     <string name="reset_password">Reset Password</string>
-    <string name="Close_Nav"></string>
-    <string name="Open_Nav"></string>
+    <string name="Close_Nav">NavBar</string>
+    <string name="Open_Nav">NavBar</string>
+    <string name="nav_header_title">Nav Header Title</string>
 </resources>

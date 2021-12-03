@@ -11,6 +11,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,18 +29,35 @@ class MainActivity : AppCompatActivity(),PasswordAdapter.ItemClickListener {
     private lateinit var adapter: PasswordAdapter
     private lateinit var dl: DrawerLayout
     private lateinit var abdt: ActionBarDrawerToggle
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val toolbar: Toolbar = findViewById(R.id.actionbar_id)
+        setSupportActionBar(toolbar)
+        ///
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val navController = findNavController(R.id.nav_host_fragment)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.nav_home, R.id.nav_profile, R.id.nav_settings), drawerLayout)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+
+        /*val toolbar: Toolbar = findViewById<Toolbar>(R.id.actionbar_id)
+        setSupportActionBar(toolbar)
+
         dl = findViewById(R.id.dl)
         abdt = ActionBarDrawerToggle(this, dl, R.string.Open_Nav, R.string.Close_Nav)
         abdt.isDrawerIndicatorEnabled = true
+        abdt.isDrawerSlideAnimationEnabled=true
 
 
-        val toolbar: Toolbar = findViewById<View>(R.id.actionbar_id) as Toolbar
-        setSupportActionBar(toolbar)
 
         // data to populate the RecyclerView with
         // data to populate the RecyclerView with
@@ -77,7 +99,13 @@ class MainActivity : AppCompatActivity(),PasswordAdapter.ItemClickListener {
 
             }
             return@OnNavigationItemSelectedListener true
-        })
+        })*/
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     fun onOptionItemSelected(item: MenuItem): Boolean {
@@ -86,7 +114,7 @@ class MainActivity : AppCompatActivity(),PasswordAdapter.ItemClickListener {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.navigation_menu, menu)
+        menuInflater.inflate(R.menu.drawer_menu, menu)
         return true
     }
 
